@@ -117,33 +117,19 @@ class Node
 class Solution
 {
     // return the Kth largest element in the given BST rooted at 'root'
-    public int kthLargest(Node root,int k)
+    public int kthLargest(Node root,int K)
     {
-        Node curr = root;
-        int  Klargest = 0;
-        int count = 0;
-        while (curr != null) {
-            if (curr.right == null) {
-                if (++count == k)
-                    Klargest = curr.data;
-                curr = curr.left;
-            } else {
-                Node succ = curr.right;
-                while (succ.left != null && succ.left != curr)
-                    succ = succ.left;
-    
-                if (succ.left == null) {
-                    succ.left = curr;
-                    curr = curr.right;
-                }
-                else {
-                    succ.left = null;
-                    if (++count == k)
-                        Klargest = curr.data;
-                    curr = curr.left;
-                }
-            }
+        ArrayList<Integer> li = new ArrayList<>();
+        inorder(root, li);
+        if(K > li.size())
+            return -1;
+        return li.get(K-1);
+    }
+    public void inorder(Node root, ArrayList<Integer> li){
+        if(root != null){
+            inorder(root.right, li);
+            li.add(root.data);
+            inorder(root.left, li);
         }
-        return Klargest;
     }
 }
